@@ -1,0 +1,7 @@
+### get product
+POST http://localhost:6060/products
+Content-Type:application/json
+
+{
+    "testProductName":"re"
+}
