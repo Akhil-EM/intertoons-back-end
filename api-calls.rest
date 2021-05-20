@@ -5,3 +5,6 @@ Content-Type:application/json
 {
     "testProductName":"dd"
 }
+
+###
+GET http://localhost:6060
