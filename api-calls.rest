@@ -1,7 +1,7 @@
 ### get product
-POST https://intertoons-backend.herokuapp.com/products
+POST http://localhost:6060/products
 Content-Type:application/json
 
 {
-    "testProductName":"re"
+    "testProductName":"dd"
 }

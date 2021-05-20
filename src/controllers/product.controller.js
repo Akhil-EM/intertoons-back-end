@@ -30,16 +30,22 @@ exports.fetchProductByName=(req,res)=>{
           
           let product=req.body.testProductName;
           // query to the database and get the records
-          request.query(`exec spSearchProducts ${product}`, function (_err,_date_set) {
+          request.query(`exec spSearchProducts ${product}`, function (_err,_data_set) {
               
               if (_err){
                 console.log(_err)
                 return res.json({status:"error",message:"server error"});
               } 
-   
-              // send records as a response
-              //console.log(typeof Object.entries(_date_set.recordsets) )
-              res.json({status:"success",message:{products:_date_set.recordsets[0]}})
+              
+              let products_arr=_data_set.recordsets[0];
+              let images_arr=_data_set.recordsets[1];
+
+              let merged_array=products_arr.map(x => Object.assign(x, images_arr.find(y => y.productId == x.productId)));
+              console.log(merged_array)
+             
+              res.json({status:"success",message:{products:merged_array}});
+
+             
               
               
           });
