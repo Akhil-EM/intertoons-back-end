@@ -1,5 +1,5 @@
 const express=require("express");
-const {body} =require("express-validator");
+const {body,query} =require("express-validator");
 
 const router=express.Router();
 
@@ -8,8 +8,10 @@ const product_controller=require("../controllers/product.controller");
 
 // create student
 
-router.post("/",body("testProductName", "Enter a valid product name").trim().not().isEmpty(),
-              product_controller.fetchProductByName);
+router.get("/",query("testProductName", "Enter a valid product name").trim().not().isEmpty(),
+               product_controller.fetchProductsByName);
 
+router.get("/product",query("id", "Enter a valid product id").trim().not().isEmpty(),
+                         product_controller.fetchProductById)
 
 module.exports=router;

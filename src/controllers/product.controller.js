@@ -15,7 +15,9 @@ var config = {
         trustServerCertificate:true 
      }};
 
-exports.fetchProductByName=(req,res)=>{
+
+
+exports.fetchProductsByName=(req,res)=>{
      //throw validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty())  return res.json({status:"error",message:{errors: errors.array()}});
@@ -28,7 +30,7 @@ exports.fetchProductByName=(req,res)=>{
           // create Request object
           var request = new msSql.Request();
           
-          let product=req.body.testProductName;
+          let product=req.query.testProductName;
           // query to the database and get the records
           request.query(`exec spSearchProducts ${product}`, function (_err,_data_set) {
               
@@ -49,9 +51,39 @@ exports.fetchProductByName=(req,res)=>{
               
               
           });
-   })
+    })
 
     
     
 };
   
+
+exports.fetchProductById=(req,res)=>{
+  //throw validation errors
+ const errors = validationResult(req);
+ if (!errors.isEmpty())  return res.json({status:"error",message:{errors: errors.array()}});
+
+ msSql.connect(config,(err)=>{
+    if(err){
+      console.log(err);
+      return res.json({status:"error",message:"server error"});
+    }
+  
+    var request=new msSql.Request();
+    var id=req.query.id;
+    
+    try{
+      request.query(`exec spProductDetailsById ${id}`,(_err,_data)=>{
+         console.log(_data.recordsets);
+         res.json({status:"success",message:{productInfo:_data.recordsets}});
+      })
+    }
+    catch(err){
+      console.log(err);
+      return res.json({status:"error",message:"server error"});
+    }
+
+ })
+ 
+ 
+};

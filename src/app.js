@@ -19,6 +19,7 @@ app.use(express.json());
 
 
 
+
 ///app base 
 app.get("/",(req,res)=>{
     res.json({status:"success",message:"node js application is working"});
