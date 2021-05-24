@@ -69,27 +69,31 @@ exports.fetchProductById=(req,res)=>{
  const errors = validationResult(req);
  if (!errors.isEmpty())  return res.json({status:"error",message:{errors: errors.array()}});
 
- msSql.connect(config,(err)=>{
-    if(err){
-      console.log(err);
-      return res.json({status:"error",message:"server error"});
-    }
-  
-    var request=new msSql.Request();
-    var id=req.query.id;
+  try{
+    msSql.connect(config,(err)=>{
+      if(err){
+        console.log(err);
+        return res.json({status:"error",message:"server error"});
+      }
     
-    try{
-      request.query(`exec spProductDetailsById ${id}`,(_err,_data)=>{
-         console.log(_data.recordsets);
-         res.json({status:"success",message:{productInfo:_data.recordsets}});
-      })
-    }
-    catch(err){
-      console.log(err);
-      return res.json({status:"error",message:"server error"});
-    }
-
- })
+      var request=new msSql.Request();
+      var id=req.query.id;
+      
+      try{
+        request.query(`exec spProductDetailsById ${id}`,(_err,_data)=>{
+           console.log(_data.recordsets);
+           res.json({status:"success",message:{productInfo:_data.recordsets}});
+        })
+      }
+      catch(err){
+        console.log(err);
+        return res.json({status:"error",message:"server error"});
+      }
+  
+   })
+  }catch(err){
+    console.log(err)
+  }
  
  
 };
