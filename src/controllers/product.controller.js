@@ -31,12 +31,13 @@ exports.fetchProductsByName=(req,res)=>{
           var request = new msSql.Request();
           
           let product=req.query.testProductName;
-          // query to the database and get the records
-          request.query(`exec spSearchProducts ${product}`, function (_err,_data_set) {
+          // query to the database and get the records 
+          // request.query(`exec spSearchProducts ${product}`, function (_err,_data_set) {
+          request.query(`exec spSearchProducts '${product}'`, function (_err,_data_set) {
               
               if (_err){
                 console.log(_err)
-                return res.json({status:"error",message:"server error"});
+                return res.json({status:"error",message:"server error2"});
               } 
               
               let products_arr=_data_set.recordsets[0];
